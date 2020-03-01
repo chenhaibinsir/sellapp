@@ -19,15 +19,21 @@
     
     <!--商品  评价 商家-->
     <div class="main_list">
-      <router-link to="/goods">商品</router-link>
+      <router-link to="/">商品</router-link>
       <router-link to="/evaluate">评价</router-link>
       <router-link to="/merchant">商家</router-link>
     </div>
    
         <router-view />
      <div style="height:50px"></div>
+     <!-- 购物车板块 -->
+     <transition name="slide-fade">
+      <div v-show="board" class="crarLump">
+        板块
+      </div>
+      </transition>
     <!-- 购物车 -->
-    <div class="shopcrat">
+    <div  @click="board=!board" class="shopcrat">
         <div class="car"><div><Icon type="md-cart" /></div>
         <h2>￥0</h2><p>另需配送费{{data.deliveryPrice}}</p>
         </div>
@@ -41,7 +47,8 @@ import { geSeller } from "../api/api/apis";
 export default {
   data() {
     return {
-      data: {}
+      data: {},
+      board:false,
     };
   },
   created() {
@@ -134,7 +141,14 @@ export default {
     font-size: 18px;
   }
 }
-
+// 购物车板块
+.crarLump{
+  width: 100%;
+  height: 300px;
+  background-color: violet;
+  position: fixed;
+  bottom: 50px;
+}
 // 购物车
 .shopcrat {
   width: 100%;
@@ -178,5 +192,19 @@ export default {
         line-height: 50px
         
     }
+}
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all .5s ease;
+}
+.slide-fade-leave-active {
+  transition: all .5s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(400px);
+  opacity: 0;
 }
 </style>
