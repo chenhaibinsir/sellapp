@@ -52,9 +52,8 @@
               </p>
             </div>
             <!-- 时间 -->
-            <p>
-              {{
-              timechange(v.rateTime)}}
+            <p style="font-size:12px">
+              {{timechange(v.rateTime)}}
             </p>
           </div>
           <div>{{v.text}}</div>
@@ -135,11 +134,11 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 // 边框色
 @E6E7E9: #e6e7e9;
 #evaluate {
-  height: 500px;
+  flex: 1;
   overflow: scroll;
   
 }
@@ -169,7 +168,11 @@ export default {
     line-height: 26px;
     flex: 1;
     color: #000;
-
+    font-size: 12px;
+       .ivu-rate-star {
+      margin-right: 1px;
+      font-size: 18px;
+     }
     p:nth-child(3) {
       span {
         margin-left: 10px;
@@ -242,6 +245,9 @@ export default {
       justify-content: space-between;
       .xinxin {
         font-size: 14px;
+         .ivu-rate-star{
+           margin-right: 0px
+        }
       }
     }
     .remark_bom {

@@ -16,8 +16,10 @@ export default  new Vuex.Store({
         initgoodsdata(state,nwe){
             state.goodsdata=nwe 
         }
+        
     }
   })
+  
   //mutations函数必须手动触发
 
  

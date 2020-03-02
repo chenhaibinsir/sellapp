@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="merchant">
     <div class="merchant_top">
       <div class="top_bottom">
         <div>
@@ -90,7 +90,6 @@ export default {
   },
   created() {
     geSeller().then(res => {
-      console.log(res.data.data);
       this.data = res.data.data;
     });
   }
@@ -98,10 +97,11 @@ export default {
 </script>
 
 <style lang="less" >
-.merchant_top {
+.merchant{
+  flex: 1;
+  overflow: scroll;
+  .merchant_top {
   padding: 0px 20px;
-  border-top: 1px solid #e8e8e8;
-  border-bottom: 1px solid #e8e8e8;
   .top_bottom {
     display: flex;
     justify-content: space-between;
@@ -214,4 +214,6 @@ export default {
     
   }
 }
+}
+
 </style>

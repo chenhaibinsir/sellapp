@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="bg" :style="{backgroundImage:'url('+data.avatar+')' }"></div>
-    <div class="main_top" >
+    <div class="main_top">
       <div class="top_content">
         <img class="img" :src="data.avatar" alt />
 
@@ -12,58 +12,93 @@
         </div>
       </div>
       <!-- 公告 -->
-      <div class="notice">
-        {{data.bulletin}}
-      </div>
+      <div class="notice">{{data.bulletin}}</div>
     </div>
-    
     <!--商品  评价 商家-->
     <div class="main_list">
-      <router-link to="/">商品</router-link>
-      <router-link to="/evaluate">评价</router-link>
-      <router-link to="/merchant">商家</router-link>
+      <router-link to="/goods" active-class="actives">商品</router-link>
+      <router-link to="/evaluate" active-class="actives">评价</router-link>
+      <router-link to="/merchant" active-class="actives">商家</router-link>
     </div>
-   
-        <router-view />
-     <div style="height:50px"></div>
-     <!-- 购物车板块 -->
-     <transition name="slide-fade">
+
+    <router-view />
+
+    <div style="height:50px"></div>
+    <!-- 购物车板块 -->
+    <transition name="slide-fade">
       <div v-show="board" class="crarLump">
-        板块
+        <Shopping />
       </div>
-      </transition>
+    </transition>
     <!-- 购物车 -->
-    <div  @click="board=!board" class="shopcrat">
-        <div class="car"><div><Icon type="md-cart" /></div>
-        <h2>￥0</h2><p>另需配送费{{data.deliveryPrice}}</p>
+    <div  class="shopcrat">
+      <div @click="board=!board" class="car">
+        <div>
+          <Icon type="md-cart" />
         </div>
-        <div class="send">￥{{data.minPrice}}起送</div>
+        <h2 class="price">￥{{prices}}</h2>
+        <p>另需配送费{{data.deliveryPrice}}</p>
+      </div>
+      <div class="send">￥{{data.minPrice}}起送</div>
     </div>
   </div>
 </template>
 
 <script>
+import Shopping from "./Shopping ";
 import { geSeller } from "../api/api/apis";
 export default {
+  components: {
+    Shopping: Shopping
+  },
   data() {
     return {
       data: {},
-      board:false,
+      board: false , //购物车显示隐藏
+      di:0,
+      color:false
     };
   },
   created() {
     geSeller().then(res => {
       this.data = res.data.data;
     });
-  }
+    
+  },
+  
+ computed:{
+   prices(){
+      let num=0;
+      let goodsd = this.$store.state.goodsdata 
+         goodsd.map(v=>{
+           v.foods.map(obj=>{
+           num+= obj.num*obj.price
+           })
+         })
+         if(num>=20){
+           document.querySelector('.price').style.color='#F6F6F6';
+           document.querySelector('.send').style.cssText="color:#F6F6F6;"
+         }
+     return num
+    }
+    
+    
+ }
+ 
+  
 };
 </script>
 
 <style lang="less" scoped>
-.main{
-  height: 100%;
+.actives{
+  font-weight: bold;
 }
-.bg{
+.main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.bg {
   width: 100%;
   height: 130px;
   background-repeat: no-repeat;
@@ -78,7 +113,7 @@ export default {
   width: 100%;
   height: 130px;
   color: rgb(224, 224, 224);
-  
+
   .top_content {
     display: flex;
     height: 100px;
@@ -91,7 +126,7 @@ export default {
     }
   }
   .notice {
-    background: url('../imgs/bulletin@2x.png') no-repeat 10px 7px;
+    background: url("../imgs/bulletin@2x.png") no-repeat 10px 7px;
     background-size: 26px;
     height: 30px;
     background-color: rgba(83, 83, 83, 0.3);
@@ -137,70 +172,70 @@ export default {
   display: flex;
   justify-content: space-around;
   padding: 8px 0;
+  border-bottom: 1px solid #e4e4e4;
   a {
     font-size: 18px;
   }
 }
 // 购物车板块
-.crarLump{
+.crarLump {
   width: 100%;
-  height: 300px;
-  background-color: violet;
+  height: 200px;
+  background-color: #fff;
   position: fixed;
   bottom: 50px;
+  
 }
 // 购物车
 .shopcrat {
   width: 100%;
   height: 50px;
-  background: #2B343B ;
+  background: #2b343b;
   position: fixed;
-  bottom:0px;
+  bottom: 0px;
   display: flex;
-    .car{
-        flex: 1;
-        text-align: center;
-        position: relative;
-        display: flex;
-        align-items: center;
-        padding-left: 80px;
-        p{
-            font-size: 12px;
-            color: rgb(182, 182, 182);
-            margin-left: 10px
-        }
-        div{
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: #666;
-            i{
-                font-size: 30px;
-                color: #C4C4C4;
-                line-height: 50px
-            }
-        }
-        
+  .car {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 80px;
+    p {
+      font-size: 12px;
+      color: rgb(182, 182, 182);
+      margin-left: 10px;
     }
-    .send{
-        width: 80px;
-        color: #8C9195;
-        font-weight: bold;
-        line-height: 50px
-        
+    div {
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #666;
+      i {
+        font-size: 30px;
+        color: #c4c4c4;
+        line-height: 50px;
+      }
     }
+  }
+  .send {
+    width: 80px;
+    color: #8c9195;
+    font-weight: bold;
+    line-height: 50px;
+  }
 }
 
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .slide-fade-enter-active {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 .slide-fade-leave-active {
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
 .slide-fade-enter, .slide-fade-leave-to
 /* .slide-fade-leave-active for below version 2.1.8 */ {

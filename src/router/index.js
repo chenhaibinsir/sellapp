@@ -5,35 +5,30 @@ import Main  from '../views/Main.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Main',
-    component: Main,
-    children:[
-      {
-        path: '/',
-        name:'Goods',
-        component: () => import('../views/Goods.vue')
-      },
-      {
-        path: '/evaluate',
-        name:'Evaluate',
-        component: () => import('../views/Evaluate.vue')
-      },
-      {
-        path: '/merchant',
-        name:'Merchant',
-        component: () => import('../views/Merchant.vue')
-      },
-    ]
-  },
-  
-]
-
-const router = new VueRouter({
+export default new VueRouter({
   base: process.env.BASE_URL,
-  routes
+  routes:[
+    {path: '/', name: 'Main',redirect:'/goods', component: Main,
+      children:[
+        {
+          path: '/goods',
+          name:'Goods',
+          component: () => import('../views/Goods.vue')
+        },
+        {
+          path: '/evaluate',
+          name:'Evaluate',
+          component: () => import('../views/Evaluate.vue')
+        },
+        {
+          path: '/merchant',
+          name:'Merchant',
+          component: () => import('../views/Merchant.vue')
+        },
+      ],
+      
+    },
+    
+  ]
+  
 })
-
-export default router
